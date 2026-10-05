@@ -1,0 +1,6 @@
+{
+  "summary":  "Implementation plan for the 'AI for Teachers & BTEB Diploma LMS' bilingual web application. It outlines the core course architecture (IoT Architecture, IoT in Agriculture, and Computer Technology Fundamentals), interactive chapter viewers (Lecture Notes, Lesson Plan, Interactive 15-Mark Quiz Player with instant scoring), grounded Gemini AI Tutor ('BTEB Teacher Assistant'), bilingual state toggle (Bangla/English), local progress tracker, student FAQs, and teacher contact channels.",
+  "updatedAt":  "2026-10-05T16:10:02.933015819Z",
+  "requestFeedback":  true,
+  "userFacing":  true
+}

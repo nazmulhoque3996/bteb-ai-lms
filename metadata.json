@@ -1,0 +1,6 @@
+{
+  "name": "AI for Teachers & BTEB Diploma LMS",
+  "description": "Modern, responsive, bilingual Learning Management System for BTEB Diploma in Engineering students and teachers with interactive lecture notes, 15-mark quizzes, and grounded Gemini AI Tutor.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
