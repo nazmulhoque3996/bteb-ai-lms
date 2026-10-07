@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { LmsProvider, useLms } from './context/LmsContext';
 import { Navbar } from './components/Navbar';
 import { Sidebar } from './components/Sidebar';
@@ -10,27 +10,33 @@ import { ContactTeacherModal } from './components/ContactTeacherModal';
 import { GeminiChatbot } from './components/GeminiChatbot';
 
 const MainLayout: React.FC = () => {
-  const { activeView } = useLms();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { activeView, sidebarState } = useLms();
+
+  const mainMarginClass = 
+    sidebarState === 'closed'
+      ? 'ml-0'
+      : sidebarState === 'collapsed'
+      ? 'md:ml-20 ml-0'
+      : 'md:ml-72 ml-0';
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC]">
-      {/* Top Navigation */}
-      <Navbar onToggleSidebar={() => setSidebarOpen(prev => !prev)} />
+      {/* Top Navigation Bar with permanent, prominent Site Name and Sidebar controls */}
+      <Navbar />
 
-      <div className="flex-1 flex">
-        {/* Sidebar Navigation */}
-        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <div className="flex-1 flex relative">
+        {/* Sidebar Navigation with Collapse (chuto kora) & Close (close kora) capabilities */}
+        <Sidebar />
 
-        {/* Main Content Area */}
-        <main className="flex-1 md:ml-72 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full transition-all">
+        {/* Main Content Area with dynamic responsive margins */}
+        <main className={`flex-1 ${mainMarginClass} p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full transition-all duration-300 ease-in-out`}>
           {activeView === 'dashboard' && <DashboardView />}
           {activeView === 'courses' && <ChapterWorkspace />}
           {activeView === 'resources' && <ResourcesView />}
           {activeView === 'faqs' && <FaqView />}
           {activeView === 'contact' && <ContactTeacherModal />}
 
-          {/* Footer with mandatory credits */}
+          {/* Footer with mandatory instructor credits */}
           <footer className="mt-16 pt-8 border-t border-slate-200/80 text-center text-xs text-slate-500 space-y-1.5 no-print">
             <p className="font-semibold text-slate-700">
               Mohammed Nazmul Hoque Shawon — Instructor, Computer Science &amp; Technology (CST), Daffodil Institute of Engineering and Technology

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Language, StudentProgress, QuizAttempt } from '../types';
+import { Language, StudentProgress, QuizAttempt, SidebarState } from '../types';
 import { COURSES } from '../data/courses';
 
 interface LmsContextType {
@@ -26,6 +26,12 @@ interface LmsContextType {
   totalChaptersCount: number;
   completedCount: number;
   completionPercentage: number;
+  sidebarState: SidebarState;
+  setSidebarState: (state: SidebarState) => void;
+  toggleSidebar: () => void;
+  toggleSidebarCollapse: () => void;
+  closeSidebar: () => void;
+  openSidebar: () => void;
 }
 
 const DEFAULT_PROGRESS: StudentProgress = {
@@ -48,6 +54,32 @@ export const LmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [activeTab, setActiveTab] = useState<'lecture' | 'plan' | 'quiz'>('lecture');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
+  const [sidebarState, setSidebarState] = useState<SidebarState>(() => {
+    try {
+      const saved = localStorage.getItem('bteb_lms_sidebar_state');
+      if (saved === 'expanded' || saved === 'collapsed' || saved === 'closed') {
+        return saved as SidebarState;
+      }
+    } catch (e) {}
+    return typeof window !== 'undefined' && window.innerWidth >= 1024 ? 'expanded' : 'closed';
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('bteb_lms_sidebar_state', sidebarState);
+    } catch (e) {}
+  }, [sidebarState]);
+
+  const toggleSidebar = () => {
+    setSidebarState(prev => (prev === 'closed' ? 'expanded' : 'closed'));
+  };
+
+  const toggleSidebarCollapse = () => {
+    setSidebarState(prev => (prev === 'collapsed' ? 'expanded' : 'collapsed'));
+  };
+
+  const closeSidebar = () => setSidebarState('closed');
+  const openSidebar = () => setSidebarState('expanded');
 
   const [progress, setProgress] = useState<StudentProgress>(() => {
     try {
@@ -180,6 +212,12 @@ export const LmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         totalChaptersCount,
         completedCount,
         completionPercentage,
+        sidebarState,
+        setSidebarState,
+        toggleSidebar,
+        toggleSidebarCollapse,
+        closeSidebar,
+        openSidebar,
       }}
     >
       {children}

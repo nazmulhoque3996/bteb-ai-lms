@@ -1,5 +1,7 @@
 export type Language = 'bn' | 'en';
 
+export type SidebarState = 'expanded' | 'collapsed' | 'closed';
+
 export type ChapterStatus = 'done' | 'in-progress' | 'coming-soon';
 
 export interface QuizQuestion {
